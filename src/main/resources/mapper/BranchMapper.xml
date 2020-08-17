@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tree.datatest.mapper.BranchMapper">
+    <select id="listBranch" resultType="TDeviceBranch">
+        SELECT
+             DISTINCT device_id
+        from
+         t_device_branch
+        where
+         device_id IN (
+         SELECT
+          id
+         from
+          t_device
+         where
+          device_pid IN ('92d9362979ac052c6f4a117d9ae6dc85', '15f39632f533355d1182f8ed20293148') )
+    </select>
+
+</mapper>
