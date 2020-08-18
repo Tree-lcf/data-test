@@ -3,7 +3,6 @@ package com.tree.datatest.controller;
 
 import com.tree.datatest.domain.TDeviceBranch;
 import com.tree.datatest.domain.TStatHlDay;
-import com.tree.datatest.domain.Telemetry;
 import com.tree.datatest.service.BranchService;
 import com.tree.datatest.service.DeviceService;
 import com.tree.datatest.service.TopService;
@@ -12,9 +11,7 @@ import com.tree.datatest.utils.JasonData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 
 @RestController
@@ -23,6 +20,7 @@ public class DeviceController {
 
     @Autowired
     private DeviceService deviceService;
+
 
     @GetMapping("list")
     public JasonData getDeviceList(){
@@ -48,7 +46,12 @@ public class DeviceController {
     public JasonData getTopList(@RequestBody TStatHlDay tStatHlDay){
 
         List<TDeviceBranch> list = branchService.listBranch();
-        return JasonData.buildSuccess(topService.listTop(tStatHlDay,list));
+        List<TStatHlDay> dayList = topService.listTop(tStatHlDay,list);
+        Collections.sort(dayList);
+//        dayList.subList(0,3);
+//        Map<TStatHlDay,Integer> map = new HashMap<>();
+
+        return JasonData.buildSuccess(dayList.subList(0,3));
 
     }
 

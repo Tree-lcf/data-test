@@ -1,7 +1,7 @@
 package com.tree.datatest.domain;
 
 
-public class TStatHlDay {
+public class TStatHlDay implements Comparable<TStatHlDay>{
 
   private long id;
   private String projectId;
@@ -114,4 +114,9 @@ public class TStatHlDay {
     this.rankXb = rankXb;
   }
 
+  @Override
+  public int compareTo(TStatHlDay o) {
+
+    return Double.compare(o.hour, this.hour);
+  }
 }
