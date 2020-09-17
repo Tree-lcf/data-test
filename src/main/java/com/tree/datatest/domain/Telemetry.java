@@ -1,23 +1,32 @@
 package com.tree.datatest.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.tree.datatest.utils.Route;
+
+import java.util.Date;
+
 public class Telemetry {
 
     private float v;
     private float i;
     private String ts;
     private String deviceId;
-    private String measurDt;
+    private String measureDt;
+    private String routeId;
     private String route;
     private double capacity;
+    private int type;
 
-    public Telemetry(float v, float i, String ts, String deviceId, String measurDt, String route, double capacity) {
+    public Telemetry(float v, float i, String ts, String deviceId, String measurDt, String routeId, String route, double capacity, int type) {
         this.v = v;
         this.i = i;
         this.ts = ts;
         this.deviceId = deviceId;
-        this.measurDt = measurDt;
+        this.measureDt = measurDt;
+        this.routeId = routeId;
         this.route = route;
         this.capacity = capacity;
+        this.type = type;
     }
 
     public Telemetry() {
@@ -27,8 +36,10 @@ public class Telemetry {
         return route;
     }
 
-    public void setRoute(String route) {
-        this.route = route;
+    public void setRoute() {
+
+        Route route = new Route(routeId);
+        this.route = route.getRouteName();
     }
 
     public double getCapacity() {
@@ -71,25 +82,43 @@ public class Telemetry {
         this.deviceId = deviceId;
     }
 
-    public String getMeasurDt() {
-        return measurDt;
+    public String getMeasureDt() {
+        return measureDt;
     }
 
     public void setMeasurDt(String measurDt) {
-        this.measurDt = measurDt;
+        this.measureDt = measurDt;
     }
 
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
+    }
+
+    public String getRouteId() {
+        return routeId;
+    }
+
+    public void setRouteId(String routeId) {
+        this.routeId = routeId;
+        setRoute();
+    }
 
     @Override
     public String toString() {
-        return "Branch{" +
+        return "Telemetry{" +
                 "v=" + v +
                 ", i=" + i +
                 ", ts='" + ts + '\'' +
                 ", deviceId='" + deviceId + '\'' +
-                ", measurDt='" + measurDt + '\'' +
+                ", measurDt='" + measureDt + '\'' +
+                ", routeId='" + routeId + '\'' +
                 ", route='" + route + '\'' +
-                ", capacity='" + capacity + '\'' +
+                ", capacity=" + capacity +
+                ", type=" + type +
                 '}';
     }
 }

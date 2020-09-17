@@ -1,17 +1,22 @@
 package com.tree.datatest.domain;
 
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
+import java.util.Date;
+
 public class TStatHlDay implements Comparable<TStatHlDay>{
 
   private long id;
   private String projectId;
   private String deviceId;
   private String route;
+  @JsonFormat(pattern = "yyyyMMdd")
   private java.sql.Date day;
   private double hour;
   private double loss;
-  private java.sql.Timestamp createTime;
-  private java.sql.Timestamp updateTime;
+  private Date createTime;
+  private Date updateTime;
   private String source;
   private long rankXb;
 
@@ -52,7 +57,7 @@ public class TStatHlDay implements Comparable<TStatHlDay>{
   }
 
 
-  public java.sql.Date getDay() {
+  public Date getDay() {
     return day;
   }
 
@@ -79,7 +84,7 @@ public class TStatHlDay implements Comparable<TStatHlDay>{
   }
 
 
-  public java.sql.Timestamp getCreateTime() {
+  public Date getCreateTime() {
     return createTime;
   }
 
@@ -88,7 +93,7 @@ public class TStatHlDay implements Comparable<TStatHlDay>{
   }
 
 
-  public java.sql.Timestamp getUpdateTime() {
+  public Date getUpdateTime() {
     return updateTime;
   }
 
@@ -112,6 +117,23 @@ public class TStatHlDay implements Comparable<TStatHlDay>{
 
   public void setRankXb(long rankXb) {
     this.rankXb = rankXb;
+  }
+
+  @Override
+  public String toString() {
+    return "TStatHlDay{" +
+            "id=" + id +
+            ", projectId='" + projectId + '\'' +
+            ", deviceId='" + deviceId + '\'' +
+            ", route='" + route + '\'' +
+            ", day=" + day +
+            ", hour=" + hour +
+            ", loss=" + loss +
+            ", createTime=" + createTime +
+            ", updateTime=" + updateTime +
+            ", source='" + source + '\'' +
+            ", rankXb=" + rankXb +
+            '}';
   }
 
   @Override

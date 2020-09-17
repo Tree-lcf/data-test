@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface DeviceMapper {
     List<Device> listDevice();
-    public Device getDeviceByNo(@Param("deviceIds")List<String> deviceIds);
+//    public Device getDeviceByNo(@Param("deviceIds")List<String> deviceIds);
 }
 
 

@@ -9,27 +9,29 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
 @Service
 public class DailyDataServiceImpl implements DailyDataService {
 
-    String tableName = "new_energy.ods_combiner_box_detail_d";
+    String tableName = "new_energy.ods_combiner_box_d";
 
     @Override
     public double getHrs(Telemetry telemetry) throws SQLException {
 
         System.out.println("telemetry" + telemetry);
 
-        String deviceid = telemetry.getDeviceId();
-        String measur_dt = telemetry.getMeasurDt();
+        String deviceId = telemetry.getDeviceId();
+        String measure_dt = telemetry.getMeasureDt();
         String route = telemetry.getRoute();
         double capacity = telemetry.getCapacity();
+        int type = telemetry.getType();
 
 
-        String sql = "SELECT p2m2," + route + ",ts FROM " + tableName + " WHERE deviceid ='"+deviceid
-                + "' and measur_dt ='" + measur_dt + "' ORDER BY ts";
+        String sql = "SELECT p2m2," + route + ",ts FROM " + tableName + " WHERE deviceid ='"+deviceId
+                + "' and measur_dt ='" + measure_dt + "' ORDER BY ts";
 
         Connection conn = HiveConn.getConn();
         Statement stmt = HiveConn.getStmt(conn);
@@ -41,7 +43,7 @@ public class DailyDataServiceImpl implements DailyDataService {
         while (res.next()) {
             Telemetry tele = new Telemetry();
             tele.setV(res.getFloat("p2m2"));
-            tele.setI(res.getFloat("p2m9"));
+            tele.setI(res.getFloat(route));
             tele.setTs(res.getString("ts"));
 
             results.put(i,tele);
@@ -65,8 +67,11 @@ public class DailyDataServiceImpl implements DailyDataService {
             sum = sum + p*ts;
 
         }
-        double hrs = sum/capacity/(1000*1000)/3600;
-        return hrs;
+//        除以2个1000，一个是KW，一个是毫秒
+        if (type ==1) {
+            return sum/capacity/(1000*1000)/3600;
+        }
+        return sum/(1000*1000)/3600;
 
 
 

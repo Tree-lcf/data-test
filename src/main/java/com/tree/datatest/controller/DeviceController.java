@@ -42,16 +42,21 @@ public class DeviceController {
     @Autowired
     private TopService topService;
 
+    @CrossOrigin
     @PostMapping("top")
     public JasonData getTopList(@RequestBody TStatHlDay tStatHlDay){
 
         List<TDeviceBranch> list = branchService.listBranch();
         List<TStatHlDay> dayList = topService.listTop(tStatHlDay,list);
+
+        if (dayList.size() == 0){
+            return JasonData.buildError("该日查无数据，请重试");
+        }
         Collections.sort(dayList);
 //        dayList.subList(0,3);
 //        Map<TStatHlDay,Integer> map = new HashMap<>();
 
-        return JasonData.buildSuccess(dayList.subList(0,3));
+        return JasonData.buildSuccess(dayList.subList(0,1));
 
     }
 
